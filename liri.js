@@ -5,10 +5,14 @@ const spotify = require("spotify")
 const request = require("request")
 
 const command = process.argv[2]
+const movie = process.argv[3]
+
+// const tweetLog = tweetLog.txt
+// const randomAct = random.txt
 
 // const randomAct = random.txt
 
-function tweetLog(tweet) {
+// function tweetLog(tweet) {
 // 	tweet.split(', ')
 //     fs.appendFile(tweetLog, "posted Tweet time: " + tweets[i].created_at + "The tweet: " + tweets[i].text, function callBackAppend(error) {
 //         if (error) {
@@ -19,8 +23,7 @@ function tweetLog(tweet) {
 
 if (command === 'my-tweets') {
     const client = new twitter(keys.twitterKeys)
-    let tweetLog = 'tweetLog.txt'
-    let params = {
+    var params = {
         screen_name: 'Michael28118250',
         count: 20
     }
@@ -28,16 +31,14 @@ if (command === 'my-tweets') {
     client.get('statuses/user_timeline', params, function(error, tweets, response) {
 
         for (var i = 0; i < tweets.length; i++) {
-
             console.log("captured tweets: " + tweets[i].text)
             if (error) {
                 console.error('twitter error')
             }
-            // let tweets2Log = (tweets[i].text + ', ')
-            // tweetLog(tweets2Log)
         }
     });
 
+    //    * This will show your last 20 tweets and when they were created at in your terminal/bash window.
 
 } else if (command === 'spotify-this-song') {
     console.log('spotify-this-song')
@@ -53,17 +54,49 @@ if (command === 'my-tweets') {
     //      * "The Sign" by Ace of Base
 
 } else if (command === 'movie-this') {
-	request('http://www.omdbapi.com', function (error, response, body) {
-  
-  	console.log('error:', error); // Print the error if one occurred 
-  	console.log('statusCode:', response && response.statusCode); 
- 	console.log('body:', body);  
-});
+	if (movie === null){
+			movie === 'Mr. Nobody'
+	} else {
+    request('http://www.omdbapi.com', function(error, response, body) {
+
+        console.log('error:', error); // Print the error if one occurred 
+        console.log('statusCode:', response && response.statusCode);
+        console.log('body: ' body)
+        
+        // need to query params keys in json
+        // r json
+        // (t) title
+        // (y) Released
+        // plot
+        // callback
+
+        // Actors
+        // ratings array: ,"Ratings":[{"Source":"Internet Movie Database","Value":"7.3/10"},{"Source":"Rotten Tomatoes","Value":"92%"},{"Source":"Metacritic","Value":"71/100"}]
+
+        // Response.json
+        // Title
+        // Year
+        // Countr
+        // "Metascore":"71","imdbRating":"7.3","imdbVotes":"429,531","imdbID":"tt0119654","Type":"movie","DVD":"N/A","BoxOffice":"N/A","Production":"Columbia TriStar International","Website":"N/A","Response":"True"
+
+        // ("Rotten Tomatos review rating" + Ratings[2].value)
+
+        //----------------------------------------------
+        //------------ data info write -----------------
+        //----------------------------------------------
+
+        //     fs.appendFile(movieLog, "Movie Title: " + response.Title + " The year " + response.Title + " came out: " + response.Year + "IMDB rating for " + response.Title + " " + Response.imdbRating + " Country of Origin for " + response.Title + ": " + response.Country + "Language of " + response.Title + ": " + response.Language + " " + response.Title + " Movie plot: " + response.Plot + "Movie Actors: " + response.Actors + "Rotten Tomatos Rating: " + response.+ Ratings[2].value, function callBackAppend(error) {
+//         if (error) {
+//             console.error(new Error('Whoops, something bad happened'))
+//         } else { console.log('tweet' + [i] + ' logged') }
+//     })
+
+    });
 
 
-        //    * This will output the following information to your terminal/bash window:
+    //    * This will output the following information to your terminal/bash window:
 
-    //      ```   http://www.omdbapi.com
+    //      ```
     //        * Title of the movie.
     //        * Year the movie came out.
     //        * IMDB Rating of the movie.
