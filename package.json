@@ -1,0 +1,25 @@
+{
+  "name": "liri-node-app",
+  "version": "1.0.0",
+  "description": "LIRI is a _Language_ Interpretation and Recognition Interface.",
+  "main": "liri.js",
+  "scripts": {
+    "start": "node liri.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rspica/liri-node-app.git"
+  },
+  "author": "Robert Spica",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rspica/liri-node-app/issues"
+  },
+  "homepage": "https://github.com/rspica/liri-node-app#readme",
+  "dependencies": {
+    "request": "^2.81.0",
+    "spotify": "^0.3.0",
+    "twitter": "^1.7.0"
+  }
+}
