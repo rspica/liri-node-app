@@ -5,7 +5,9 @@ const spotify = require("spotify")
 const request = require("request")
 
 const command = process.argv[2]
-const movie = process.argv[3]
+let movieEntered = process.argv[3]
+let movieStringArray = process.argv.slice(3)
+let movieName = movieStringArray.join('+')
 
 // const tweetLog = tweetLog.txt
 // const randomAct = random.txt
@@ -13,7 +15,7 @@ const movie = process.argv[3]
 // const randomAct = random.txt
 
 // function tweetLog(tweet) {
-// 	tweet.split(', ')
+//  tweet.split(', ')
 //     fs.appendFile(tweetLog, "posted Tweet time: " + tweets[i].created_at + "The tweet: " + tweets[i].text, function callBackAppend(error) {
 //         if (error) {
 //             console.error(new Error('Whoops, something bad happened'))
@@ -53,45 +55,44 @@ if (command === 'my-tweets') {
     //    * if no song is provided then your program will default to
     //      * "The Sign" by Ace of Base
 
-} else if (command === 'movie-this') {
-	if (movie === null){
-			movie === 'Mr. Nobody'
-	} else {
-    request('http://www.omdbapi.com', function(error, response, body) {
+} else if (command === 'movie') {
+    console.log('in moie conditional')
+    if (movieName === null) {
+        movieName === 'Mr. Nobody'
+    } else {
+        var queryUrl = "http://www.omdbapi.com/?apikey=40e9cece&t=" + movieName;
+        request(queryUrl, function(error, response, body) {
+            if (error) {
+                return console.error('Something bad happened: ', error) 
 
-        console.log('error:', error); // Print the error if one occurred 
-        console.log('statusCode:', response && response.statusCode);
-        console.log('body: ' body)
-        
-        // need to query params keys in json
-        // r json
-        // (t) title
-        // (y) Released
-        // plot
-        // callback
+            } else if (!error && response.statusCode == 200) { // If the request is successful
+                var results = JSON.parse(body)
+                console.log(results)
+                console.log("Movie selected: ", movieName)
+                console.log("Can you believe"+movieName + " made: " + results.BoxOffice)  // Logs the $ amout the movie made
+                console.log(movieName + " was released on: " + results.Released)  // Logs the Release Year for the movie
+                console.log("The IMDB Rating for " + movieName + "is: " + results.imdbRating)  // Logs the IMDB Rating of the movie.
+                console.log("The country "+ movieName + " was released: " + results.Country)  // Logs the Country where the movie was produced
+                console.log("The language of" + movieName + "is: " + results.Language)  // Logs the Language of the movie
+                console.log(movieName + " the plot is: " + results.Plot)  // Logs the Plot for the movie
+                console.log(results.Actors + " were the actors in " + movieName)  // Logs the Actors in the movie
+                let movieTomatoName = movieStringArray.join('%20')
+                console.log("Check out more about " + movieEntered + " https://www.rottentomatoes.com/search/?search=" + movieTomatoName)  // Logs the Rotten Tomatoes URL
+            }
+        })
+    }
 
-        // Actors
-        // ratings array: ,"Ratings":[{"Source":"Internet Movie Database","Value":"7.3/10"},{"Source":"Rotten Tomatoes","Value":"92%"},{"Source":"Metacritic","Value":"71/100"}]
+    //----------------------------------------------
+    //------------ data info write -----------------
+    //----------------------------------------------
 
-        // Response.json
-        // Title
-        // Year
-        // Countr
-        // "Metascore":"71","imdbRating":"7.3","imdbVotes":"429,531","imdbID":"tt0119654","Type":"movie","DVD":"N/A","BoxOffice":"N/A","Production":"Columbia TriStar International","Website":"N/A","Response":"True"
+    //     fs.appendFile(movieLog, "Movie Title: " + response.Title + " The year " + response.Title + " came out: " + response.Year + "IMDB rating for " + response.Title + " " + Response.imdbRating + " Country of Origin for " + response.Title + ": " + response.Country + "Language of " + response.Title + ": " + response.Language + " " + response.Title + " Movie plot: " + response.Plot + "Movie Actors: " + response.Actors + "Rotten Tomatos Rating: " + response.+ Ratings[2].value, function callBackAppend(error) {
+    //         if (error) {
+    //             console.error(new Error('Whoops, something bad happened'))
+    //         } else { console.log('tweet' + [i] + ' logged') }
+    //     })
 
-        // ("Rotten Tomatos review rating" + Ratings[2].value)
 
-        //----------------------------------------------
-        //------------ data info write -----------------
-        //----------------------------------------------
-
-        //     fs.appendFile(movieLog, "Movie Title: " + response.Title + " The year " + response.Title + " came out: " + response.Year + "IMDB rating for " + response.Title + " " + Response.imdbRating + " Country of Origin for " + response.Title + ": " + response.Country + "Language of " + response.Title + ": " + response.Language + " " + response.Title + " Movie plot: " + response.Plot + "Movie Actors: " + response.Actors + "Rotten Tomatos Rating: " + response.+ Ratings[2].value, function callBackAppend(error) {
-//         if (error) {
-//             console.error(new Error('Whoops, something bad happened'))
-//         } else { console.log('tweet' + [i] + ' logged') }
-//     })
-
-    });
 
 
     //    * This will output the following information to your terminal/bash window:
@@ -114,18 +115,18 @@ if (command === 'my-tweets') {
 } else if (command === 'do-what-it-says') {
     console.log('do-what-it-says')
 
-    //	* Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
+    //  * Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.
     //      * It should run `spotify-this-song` for "I Want it That Way," as follows the text in `random.txt`.
     //      * Feel free to change the text in that document to test out the feature for other commands.
 
 
 
     // fs.readFile(randomAct, 'utf8', function callBackRead(err, file contents)) {
-    // 	if (err) { 
-    // 		return console.log(err)
-    // 	}
+    //  if (err) { 
+    //      return console.log(err)
+    //  }
 
-    // 	console.log(randomAct);
+    //  console.log(randomAct);
     // }
 
 
