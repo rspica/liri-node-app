@@ -26,57 +26,15 @@ function errorHandle(err) {
     console.error('Something bad happened: ', err);
 }
 
-function writeResults(command, results) {
+function writeResults(command, results, tweetText) {
     let data = JSON.stringify(results, null, 4)
-    fs.appendFile('inputResults.txt', data, function finished(err) {
+    fs.appendFile('inputResults.txt', '***************\n' + command + ':  ' + data + '\n' + tweetText + '\n', function finished(err) {
         if (err) {
             errorHandle(err);
         }
         console.log('Data logged successfully')
     });
 }
-
-
-
-
-/**
- * appendData creates an object that logs every interaction the user has with liri.js.
- * 
- * Example Usage: `appendData('movie-this', movieResponse)`
- *
- * @param action    The action that the user took. Provided in process.argv[2].
- * @param data       The data liri.js retrieved in response to the user's action.
- */
-// function appendData(action, data) {
-
-//     [
-//   {
-//     action: 'movie', 
-//     data: <movie data>
-//   },
-//   {
-//     action: 'tweets',
-//     data: [
-//       {
-//         <tweet object>
-//       }
-//     ]
-//   },
-//   ...
-// ]
-
-//     // 1. Create a new {action:..., data:...} object
-
-//     // 2. Read the log.txt file as a string :: What function do you need here?
-//         // 3. If the file contents are empty, create a new array to push the object to
-//         // 4. Otherwise, parse the fileContents as JSON, and use this as your array
-
-//         // 5. Push the new object to the array from Step 3/4
-
-//         // 6. Save this as the new log.txt file :: What function do you need here?
-
-//     })
-// }
 
 
 
@@ -97,7 +55,7 @@ if (command === 'tweets') {
             console.log("____________________________________________")
             console.log("tweet time: " + tweets[i].created_at + '\n')
             console.log("captured tweet: \n" + tweets[i].text + '\n')
-            writeResults(command, tweets[i].text);
+            writeResults(command, tweets[i].created_at, tweets[i].text);
             if (err) {
                 errorHandle(err);
             }
@@ -120,7 +78,6 @@ if (command === 'tweets') {
 
             } else if (!err && response.statusCode == 200) { // If the request is successful
                 var results = JSON.parse(body);
-                console.log("results: ", results);
                 console.log("Movie selected: ", results.Title + '\n');
                 console.log("Can you believe " + results.Title + " made: " + results.BoxOffice + '\n'); // Logs the $ amout the movie made
                 console.log(results.Title + " was released on: " + results.Released + '\n'); // Logs the Release Year for the movie
@@ -131,7 +88,7 @@ if (command === 'tweets') {
                 console.log(results.Actors + " were the actors in " + results.Title + '\n'); // Logs the Actors in the movie
                 let movieTomatoName = movieStringArray.join('%20');
                 console.log("Check out more about " + movieEntered + " https://www.rottentomatoes.com/search/?search=" + movieTomatoName + '\n'); // Logs the Rotten Tomatoes URL
-                writeResults(command, results);
+                writeResults(command, results, ' ');
             }
         })
     }
